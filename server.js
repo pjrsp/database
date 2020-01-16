@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-const port = 3001;
+const port = 3000;
 
 var app = new express();
 
@@ -24,39 +24,52 @@ app.get('/', function(req, res) {
 });
 
 app.post('/search', function(req, res) {
-    res.send("complete!!!!")
 
-    // var sql = require('mssql');
-    // var config = {
-    //     user: 'sa',
-    //     password: 'psdsystem',
-    //     server: '192.168.40.7',
-    //     database: 'PSD_POS',
-    //     options: {
-    //         instanceName: 'sqlexpress'
-    //     }
-    // };
-    // sql.close();
-    // sql.connect(config, function(err) {
-    //     if (err) console.log('ERROR : ' + err);
+    var options = {
+        method: 'POST',
+        uri: ' https://80beac66.ngrok.io',
+        json: true
+    };
 
-    //     var query = 'SELECT XFsahGrand FROM TPOSTSalHD\
-    //     WHERE XVBchCode = \'' + req.body.uname + '\'\
-    //     AND XDSahDocDate BETWEEN \'' + req.body.fdate + '\'\
-    //     AND  \'' + req.body.ldate + '\'\
-    //     ';
-    //     var request = new sql.Request();
-    //     request.query(query, function(err, recordset) {
-    //         if (err) console.log('ERROR : ' + err);
-
-    //         if (recordset != undefined && recordset.recordset.length > 0) {
-    //             res.send(recordset.recordset);
-    //         } else {
-    //             res.send("No data found.");
-    //         }
-    //     });
-    // });
+    rp(options)
+        .then(function(parsedBody) {
+            res.send(parsedBody)
+        })
+        .catch(function(err) {
+            return next(err);
+        });
 });
+
+// var sql = require('mssql');
+// var config = {
+//     user: 'sa',
+//     password: 'psdsystem',
+//     server: '192.168.40.7',
+//     database: 'PSD_POS',
+//     options: {
+//         instanceName: 'sqlexpress'
+//     }
+// };
+// sql.close();
+// sql.connect(config, function(err) {
+//     if (err) console.log('ERROR : ' + err);
+
+//     var query = 'SELECT XFsahGrand FROM TPOSTSalHD\
+//     WHERE XVBchCode = \'' + req.body.uname + '\'\
+//     AND XDSahDocDate BETWEEN \'' + req.body.fdate + '\'\
+//     AND  \'' + req.body.ldate + '\'\
+//     ';
+//     var request = new sql.Request();
+//     request.query(query, function(err, recordset) {
+//         if (err) console.log('ERROR : ' + err);
+
+//         if (recordset != undefined && recordset.recordset.length > 0) {
+//             res.send(recordset.recordset);
+//         } else {
+//             res.send("No data found.");
+//         }
+//     });
+// });
 
 // app.listen(port, function() {
 //     console.log('Node start on port : ' + port);
