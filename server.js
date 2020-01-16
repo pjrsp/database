@@ -1,8 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-// var path = require('path');
 
-const port = 3002;
+const port = 3001;
 
 var app = new express();
 
@@ -20,44 +19,48 @@ app.use(bodyParser.urlencoded({
 
 app.get('/', function(req, res) {
     res.sendFile('/search.html', { root: __dirname });
+    //     res.send("complete!");
 
 });
 
 app.post('/search', function(req, res) {
-    res.send("aaaaaaaa")
+    res.send("complete!!!!")
 
-//     var sql = require('mssql');
-//     var config = {
-//         user: 'sa',
-//         password: 'psdsystem',
-//         server: '192.168.40.7',
-//         database: 'PSD_POS',
-//         options: {
-//             instanceName: 'sqlexpress'
-//         }
-//     };
-//     sql.close();
-//     sql.connect(config, function(err) {
-//         if (err) console.log('ERROR : ' + err);
+    // var sql = require('mssql');
+    // var config = {
+    //     user: 'sa',
+    //     password: 'psdsystem',
+    //     server: '192.168.40.7',
+    //     database: 'PSD_POS',
+    //     options: {
+    //         instanceName: 'sqlexpress'
+    //     }
+    // };
+    // sql.close();
+    // sql.connect(config, function(err) {
+    //     if (err) console.log('ERROR : ' + err);
 
-//         var query = 'SELECT XFsahGrand FROM TPOSTSalHD\
-//         WHERE XVBchCode = \'' + req.body.uname + '\'\
-//         AND XDSahDocDate BETWEEN \'' + req.body.fdate + '\'\
-//         AND  \'' + req.body.ldate + '\'\
-//         ';
-//         var request = new sql.Request();
-//         request.query(query, function(err, recordset) {
-//             if (err) console.log('ERROR : ' + err);
+    //     var query = 'SELECT XFsahGrand FROM TPOSTSalHD\
+    //     WHERE XVBchCode = \'' + req.body.uname + '\'\
+    //     AND XDSahDocDate BETWEEN \'' + req.body.fdate + '\'\
+    //     AND  \'' + req.body.ldate + '\'\
+    //     ';
+    //     var request = new sql.Request();
+    //     request.query(query, function(err, recordset) {
+    //         if (err) console.log('ERROR : ' + err);
 
-//             if (recordset != undefined && recordset.recordset.length > 0) {
-//                 res.send(recordset.recordset);
-//             } else {
-//                 res.send("No data found.");
-//             }
-//         });
-//     });
+    //         if (recordset != undefined && recordset.recordset.length > 0) {
+    //             res.send(recordset.recordset);
+    //         } else {
+    //             res.send("No data found.");
+    //         }
+    //     });
+    // });
 });
 
-app.listen(port, function() {
-    console.log('Node start on port : ' + port);
+// app.listen(port, function() {
+//     console.log('Node start on port : ' + port);
+// }); อันเก่า
+app.listen(process.env.PORT || port, function() {
+    console.log('Node start on port :' + port);
 });
