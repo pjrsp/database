@@ -17,7 +17,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "text", 
-                    url: "https://aqueous-everglades-49247/liff",
+                    url: "https://aqueous-everglades-49247.herokuapp.com/liff",
 //                     
    
                     contentType: "application/json; charset=utf-8",
