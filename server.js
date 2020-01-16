@@ -1,61 +1,41 @@
-.<html>
-    <head>
-        <title>Liff Web</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!--<script src="liff-starter.js"></script> -->
-        <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script>
-            
-        
-        function onSubmit(e) {
-            e.preventDefault();
-            $(document).ready(function() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "text", 
-                    url: "https://aqueous-everglades-49247.herokuapp.com/liff",
-//                     
-   
-                    contentType: "application/json; charset=utf-8",
+var express = require('express');
+var bodyParser = require('body-parser');
+var port = 5007;
+var rp = require('request-promise');
 
-                    success: function(res) {
-                        alert(res);
-                        
-                        liff.init();
-                        liff.sendMessages([{
-                            type: 'text',
-                            text: res
-                        }]).then(function() {
-                            liff.closeWindow();
-                        }).catch(function(error) {
-                            window.alert("Error sending message: " + error);
-                        });
-                    },
-                    error: function(res) {
-                        alert("เกิดข้อผิดพลาด " + res);
-                    }
-                });
-            });
-        };
-    </script>
-    </head>
-        <body>
-            <div class="regisbox">
-                <img src="https://cdn.icon-icons.com/icons2/582/PNG/512/man-2_icon-icons.com_55041.png" class="avatar">
-                <h1>กรอกข้อมูลของท่าน</h1>
-                <form>
-                    <p>ชื่อสาขา</p>
-                    <input type="text" name="bchcode" id="bchcode" placeholder="Enter you Branch">
-                    <p>วันที่เริ่มต้น</p>
-                    <input type="date" name="date_start" id="date_start" >
-                    <p>วันที่สิ้นสุด</p>
-                    <input type="date" name="date_stop" id="date_stop">
-                    <input type="submit" id="sendmessagebutton" value="Submit" onclick="onSubmit(event);" >
-                </form>
-            </div">
-        </body>
-</html>
+var app = new express();
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.get('/', function(req, res, next) {
+    res.send("Online");
+});
+
+app.post('/liff', function(req, res, next) {
+    var options = {
+        method: 'POST',
+        uri: 'https://aqueous-everglades-49247.herokuapp.com/liff',
+        json: true
+    };
+
+    rp(options)
+        .then(function(parsedBody) {
+            res.send(parsedBody)
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+app.listen(process.env.PORT || port, function() {
+    console.log('Node start on port : ' + port);
+});
